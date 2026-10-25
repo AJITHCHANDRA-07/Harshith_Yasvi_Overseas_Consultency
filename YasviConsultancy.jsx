@@ -1120,45 +1120,133 @@ p{margin:0 0 .5rem}
 .footer-bottom a{color:#94a3b8}
 
 /* ── STICKY MOBILE ── */
-.actionbar{position:fixed;left:0;right:0;bottom:0;display:none;gap:0;background:#fff;border-top:1px solid var(--line);z-index:200}
-.actionbar-call,.actionbar-wa{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;font-weight:600;font-size:.9rem;text-decoration:none}
-.actionbar-call{color:var(--blue);border-right:1px solid var(--line)}
+.actionbar{position:fixed;left:0;right:0;bottom:0;display:none;gap:0;background:rgba(255,255,255,0.96);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--line);z-index:900;box-shadow:0 -4px 18px rgba(15,23,42,0.08);padding-bottom:env(safe-area-inset-bottom,0px)}
+.actionbar-call,.actionbar-wa{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:14px 12px;font-weight:700;font-size:.9rem;text-decoration:none;transition:all .15s ease}
+.actionbar-call{color:var(--blue);background:#ffffff;border-right:1px solid var(--line)}
+.actionbar-call:active{background:var(--sky)}
 .actionbar-wa{background:var(--wa);color:#fff}
+.actionbar-wa:active{filter:brightness(0.92)}
 
 /* ── WA FLOAT ── */
-.wa-float{position:fixed;right:22px;bottom:90px;z-index:150;display:flex;flex-direction:column;align-items:flex-end;gap:8px}
-.wa-float-label{background:var(--ink);color:#fff;font-size:.78rem;padding:5px 12px;border-radius:999px;white-space:nowrap}
-.wa-float-btn{width:54px;height:54px;background:var(--wa);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.5rem;box-shadow:0 4px 16px rgba(31,170,89,.35);transition:transform .15s}
+.wa-float{position:fixed;right:20px;bottom:92px;z-index:850;display:flex;flex-direction:column;align-items:flex-end;gap:6px;transition:all .2s ease}
+.wa-float-label{background:var(--ink);color:#fff;font-size:.76rem;padding:5px 12px;border-radius:999px;white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,0.18)}
+.wa-float-btn{width:52px;height:52px;background:var(--wa);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.45rem;box-shadow:0 6px 20px rgba(31,170,89,0.38);transition:transform .15s}
 .wa-float-btn:hover{transform:scale(1.06)}
 
-/* ── RESPONSIVE ── */
+/* ── MOBILE NAV DROPDOWN ── */
+.nav-mobile-dropdown{background:#ffffff;border-top:1px solid var(--line);box-shadow:0 16px 36px rgba(15,23,42,0.14);padding:14px 20px 20px;display:flex;flex-direction:column;gap:4px;animation:slideDown .22s cubic-bezier(0.16,1,0.3,1)}
+@keyframes slideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+.nav-mobile-link{font-size:.98rem;font-weight:600;color:var(--ink);padding:12px 14px;border-radius:10px;transition:all .15s ease;display:flex;align-items:center;justify-content:space-between}
+.nav-mobile-link:hover,.nav-mobile-link:active{background:var(--sky);color:var(--blue)}
+
+/* ── STEP CONTENT ── */
+.step-content{display:flex;flex-direction:column}
+
+/* ── TABLET & MEDIUM SCREENS (<= 900px) ── */
 @media(max-width:900px){
-  .hero{grid-template-columns:1fr}
-  .globe-wrap{max-width:380px;margin:32px auto 0}
-  .hero-extras{grid-template-columns:1fr}
-  .stages{grid-template-columns:1fr}
-  .countries-grid{grid-template-columns:repeat(2,1fr)}
-  .stories-grid{grid-template-columns:1fr}
-  .parents-grid{grid-template-columns:1fr}
-  .why-grid{grid-template-columns:1fr}
-  .team-grid{grid-template-columns:1fr}
+  .wrap{padding:0 20px}
+  .section{padding:60px 0}
+  .section-head{margin-bottom:36px}
+  .hero{grid-template-columns:1fr;gap:32px;padding:36px 0 28px;text-align:center}
+  .hero-eyebrow{margin-bottom:12px;font-size:.78rem}
+  .hero-title{font-size:clamp(2.1rem,7.5vw,3.2rem);margin-bottom:14px;line-height:1.15}
+  .hero-lead{font-size:.96rem;margin:0 auto 22px;max-width:44ch}
+  .hero-ctas{justify-content:center;gap:10px;margin-bottom:24px}
+  .hero-foot{justify-content:center;flex-wrap:wrap;gap:16px;margin-top:10px;font-size:.84rem}
+  .globe-wrap{max-width:340px;margin:16px auto 0}
+  .globe-hint{font-size:.72rem;padding:4px 12px}
+  .hero-extras{grid-template-columns:1fr;gap:20px;padding:0 0 44px}
+  .intakes{padding:24px 20px}
+  .story-card-img-wrap{height:180px}
+  .trust{padding:32px 0}
+  .stages{grid-template-columns:1fr;gap:20px}
+  .stage{padding:26px 22px;border-radius:18px}
+  .countries-grid{grid-template-columns:repeat(2,1fr);gap:18px}
+  .stories-grid{grid-template-columns:1fr;gap:18px}
+  .parents-grid{grid-template-columns:1fr;gap:16px}
+  .why-grid{grid-template-columns:1fr;gap:36px}
+  .team-grid{grid-template-columns:1fr;gap:20px}
   .contact-panel{grid-template-columns:1fr}
-  .footer-grid{grid-template-columns:1fr 1fr}
-  .steps{grid-template-columns:repeat(2,1fr);row-gap:32px}
+  .contact-info{padding:36px 28px;gap:20px}
+  .contact-form{padding:36px 28px}
+  .footer{padding:48px 0 calc(84px + env(safe-area-inset-bottom, 0px))}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:32px 24px;margin-bottom:32px}
+  .steps{grid-template-columns:repeat(2,1fr);row-gap:28px}
   .steps::before{display:none}
-  .guides-grid{grid-template-columns:1fr}
+  .guides-grid{grid-template-columns:1fr;gap:16px}
   .actionbar{display:flex}
-  .wa-float{bottom:78px}
+  .wa-float{bottom:calc(66px + env(safe-area-inset-bottom, 0px));right:16px}
 }
-@media(max-width:560px){
-  .countries-grid{grid-template-columns:1fr}
-  .footer-grid{grid-template-columns:1fr}
-  .field-row{grid-template-columns:1fr}
+
+/* ── MOBILE SCREENS (<= 640px) ── */
+@media(max-width:640px){
+  .wrap{padding:0 16px}
+  .section{padding:50px 0}
+  .section-head{margin-bottom:28px}
+  .section-head .lead,.lead{font-size:.9rem}
+  .h2{font-size:clamp(1.6rem,6vw,2.2rem)}
+  .nav{padding:0 16px}
+  .nav-inner{height:60px}
   .nav-links{display:none}
-  .burger{display:block}
-  .contact-info{padding:28px 22px}
-  .contact-form{padding:28px 22px}
+  .nav-btn{display:none}
+  .burger{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:8px;font-size:1.15rem}
+  .trust-row{display:grid;grid-template-columns:repeat(2,1fr);gap:20px 14px}
+  .trust-reviews{grid-column:span 2}
+  .trust-stat b{font-size:1.9rem}
+  .trust-reviews b{font-size:1.85rem}
+  .trust-note{font-size:.74rem;margin-top:16px;padding:0 8px}
+  .quiz-card{padding:22px 18px;border-radius:16px}
+  .quiz-q{font-size:1.05rem;margin-bottom:14px}
+  .quiz-opt{padding:11px 14px;font-size:.9rem}
+  .quiz-actions{flex-direction:column}
+  .quiz-actions .btn{width:100%;justify-content:center}
+  .checklist-tabs{gap:6px;overflow-x:auto;flex-wrap:nowrap;padding-bottom:6px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .checklist-tabs::-webkit-scrollbar{display:none}
+  .tab-btn{padding:7px 12px;font-size:.82rem;white-space:nowrap;flex-shrink:0}
+  .checklist-body{padding:22px 18px;width:100%;max-width:100%}
+  .checklist-body .btn{width:100%;justify-content:center}
 }
+
+/* ── PHONES & SMALL SCREENS (<= 580px) ── */
+@media(max-width:580px){
+  .countries-grid{grid-template-columns:1fr;gap:18px}
+  .country-card-media{height:180px}
+  .country-card-content{padding:18px 18px 20px}
+  .country-landmark-tag{font-size:.72rem;padding:3px 9px}
+  .footer-grid{grid-template-columns:1fr;gap:26px}
+  .footer-bottom{flex-direction:column;text-align:center;gap:10px;padding-top:18px}
+  .steps{grid-template-columns:1fr;row-gap:20px;margin-top:28px}
+  .step{display:flex;align-items:flex-start;text-align:left;gap:16px;padding:0}
+  .step-dot{width:40px;height:40px;font-size:.95rem;flex-shrink:0;margin-bottom:0}
+  .step-content h3{font-size:.95rem;margin-bottom:3px}
+  .step-content p{font-size:.84rem}
+  .why-img{height:250px}
+  .why-badge{position:relative;bottom:0;left:0;margin-top:14px;width:100%;border-radius:12px;padding:12px 16px}
+  .contact-info{padding:26px 18px}
+  .contact-form{padding:26px 18px}
+  .field-row{grid-template-columns:1fr;gap:12px}
+  .field input,.field select{font-size:16px!important;padding:12px 14px}
+  .wa-float-label{display:none}
+  .wa-float-btn{width:48px;height:48px;font-size:1.3rem}
+}
+
+/* ── EXTRA COMPACT PHONES (<= 420px) ── */
+@media(max-width:420px){
+  .wrap{padding:0 12px}
+  .hero{padding:28px 0 20px;gap:24px}
+  .hero-title{font-size:clamp(1.95rem,8.5vw,2.5rem)}
+  .hero-ctas .btn{width:100%;justify-content:center}
+  .globe-wrap{max-width:280px}
+  .stage{padding:20px 16px}
+  .svc-item{padding:8px 4px;gap:10px}
+  .svc-icon-box{width:38px;height:38px;font-size:1.2rem}
+  .person{padding:20px 16px}
+  .office-body{padding:18px 16px}
+  .story{padding:18px 16px}
+  .pcard{padding:18px 16px}
+  .btn-lg{padding:12px 20px;font-size:.95rem}
+}
+
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 `;
 
@@ -1222,16 +1310,19 @@ export default function YasviConsultancy() {
             ))}
           </nav>
           <div className="nav-actions">
-            <a className="btn btn-outline" style={{ padding: "8px 18px", fontSize: ".88rem" }} href="#contact">Book Counselling</a>
-            <button className="burger" onClick={() => setMenu(!menu)} aria-label="Menu">☰</button>
+            <a className="btn btn-outline nav-btn" style={{ padding: "8px 18px", fontSize: ".88rem" }} href="#contact">Book Counselling</a>
+            <button className="burger" onClick={() => setMenu(!menu)} aria-label="Menu">{menu ? "✕" : "☰"}</button>
           </div>
         </div>
         {menu && (
-          <div style={{ background: "#fff", borderTop: "1px solid var(--line)", padding: "16px 22px", display: "flex", flexDirection: "column", gap: "12px" }}>
+          <div className="nav-mobile-dropdown">
             {NAV.map(([href, label]) => (
-              <a key={href} href={href} onClick={() => setMenu(false)} style={{ fontSize: ".95rem" }}>{label}</a>
+              <a key={href} href={href} onClick={() => setMenu(false)} className="nav-mobile-link">
+                <span>{label}</span>
+                <span style={{ color: "var(--blue)", fontSize: "1.1rem" }}>→</span>
+              </a>
             ))}
-            <a className="btn btn-wa" href="#contact" onClick={() => setMenu(false)} style={{ textAlign: "center" }}>Book Counselling</a>
+            <a className="btn btn-wa btn-block" href="#contact" onClick={() => setMenu(false)} style={{ marginTop: "6px" }}>Book Counselling on WhatsApp</a>
           </div>
         )}
       </header>
@@ -1417,8 +1508,10 @@ export default function YasviConsultancy() {
               {STEPS.map(({ n, title, desc }) => (
                 <li key={n} className="step">
                   <span className="step-dot">{n}</span>
-                  <h3>{title}</h3>
-                  <p>{desc}</p>
+                  <div className="step-content">
+                    <h3>{title}</h3>
+                    <p>{desc}</p>
+                  </div>
                 </li>
               ))}
             </ol>
