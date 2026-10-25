@@ -3,9 +3,14 @@ import { useState, useEffect, useRef } from "react";
 /* ═══════════════════════════════════════════════════════
    CONSTANTS – exact data from production site
 ═══════════════════════════════════════════════════════ */
-const WA_NUM = "919989884094";
-const wa = (t = "") =>
-  `https://wa.me/${WA_NUM}${t ? `?text=${encodeURIComponent(t)}` : ""}`;
+const WA_NUM_1 = "919989884094";
+const WA_NUM_2 = "919390677123";
+const WA_DISPLAY_1 = "+91 99898 84094";
+const WA_DISPLAY_2 = "+91 93906 77123";
+const WA_NUM = WA_NUM_1;
+
+const wa = (t = "", num = WA_NUM_1) =>
+  `https://wa.me/${num}${t ? `?text=${encodeURIComponent(t)}` : ""}`;
 
 const COUNTRIES = [
   {
@@ -869,17 +874,84 @@ p{margin:0 0 .5rem}
 .announce-close:hover{color:#fff}
 .sample-tag{font-size:.7rem;background:#fde047;color:#080c14;padding:2px 7px;border-radius:4px;font-weight:700}
 
-/* ── NAV (Elevated Dock with Button Pills) ── */
+/* ── NAV (Elevated Dock with Button Pills & Flashlight Separation Line) ── */
 .nav{
   position:sticky;
   top:0;
-  background:rgba(8,12,20,0.92);
-  backdrop-filter:blur(20px);
-  -webkit-backdrop-filter:blur(20px);
-  border-bottom:1px solid rgba(253,224,71,0.2);
-  box-shadow:0 12px 32px -10px rgba(0,0,0,0.8),0 0 1px rgba(253,224,71,0.25);
+  background:rgba(6,9,16,0.95);
+  backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);
+  border-bottom:1px solid rgba(253,224,71,0.22);
+  box-shadow:0 14px 36px -8px rgba(0,0,0,0.85);
   z-index:100;
   padding:0 22px;
+}
+
+/* Flashlight Line Separator underneath Header */
+.nav-flashlight-line{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:-1.5px;
+  height:2.5px;
+  background:linear-gradient(90deg, transparent 0%, rgba(253,224,71,0.2) 20%, rgba(253,224,71,0.5) 50%, rgba(253,224,71,0.2) 80%, transparent 100%);
+  overflow:hidden;
+  pointer-events:none;
+}
+
+.nav-flashlight-beam{
+  position:absolute;
+  top:0;
+  height:100%;
+  width:420px;
+  max-width:85%;
+  background:linear-gradient(90deg, transparent 0%, rgba(253,224,71,0.3) 15%, #ffffff 48%, #fde047 52%, rgba(253,224,71,0.4) 85%, transparent 100%);
+  box-shadow:0 0 16px 3px #fde047, 0 0 32px 6px rgba(253,224,71,0.65), 0 1px 12px 2px #ffffff;
+  border-radius:999px;
+  animation:flashlightSweep 5.5s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate;
+}
+
+@keyframes flashlightSweep{
+  0%{
+    left:-120px;
+    opacity:0.75;
+    filter:drop-shadow(0 0 10px #fde047);
+  }
+  50%{
+    left:calc(50% - 210px);
+    opacity:1;
+    filter:drop-shadow(0 0 22px #fde047) drop-shadow(0 0 8px #ffffff);
+    transform:scaleY(1.3);
+  }
+  100%{
+    left:calc(100% - 300px);
+    opacity:0.75;
+    filter:drop-shadow(0 0 10px #fde047);
+  }
+}
+
+/* Downward Flashlight Spotlight Aura */
+.nav-flashlight-glow{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:-48px;
+  height:48px;
+  background:radial-gradient(ellipse 60% 100% at 50% 0%, rgba(253,224,71,0.24) 0%, rgba(253,224,71,0.08) 50%, transparent 75%);
+  pointer-events:none;
+  filter:blur(6px);
+  animation:flashlightAura 4s ease-in-out infinite alternate;
+}
+
+@keyframes flashlightAura{
+  0%{
+    opacity:0.7;
+    transform:scaleX(0.9);
+  }
+  100%{
+    opacity:1;
+    transform:scaleX(1.1);
+  }
 }
 .nav-inner{max-width:1160px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:70px;gap:16px}
 .logo{display:flex;flex-direction:column;line-height:1}
@@ -1157,33 +1229,127 @@ p{margin:0 0 .5rem}
 .form-note{font-size:.78rem;color:#94a3b8;margin-top:10px;line-height:1.5}
 .form-note a{color:#fde047}
 
-/* ── FOOTER ── */
-.footer{background:#030509;color:#94a3b8;padding:56px 0 32px;border-top:1px solid rgba(255,255,255,0.06)}
-.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px}
+/* ── SEPARATION DIVIDER ABOVE FOOTER ── */
+.footer-divider-ornament{display:flex;align-items:center;justify-content:center;gap:20px;max-width:1160px;margin:80px auto 0;padding:0 22px}
+.footer-divider-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(253,224,71,0.28) 50%,transparent)}
+.footer-divider-emblem{font-size:.78rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#fde047;display:flex;align-items:center;gap:8px;white-space:nowrap;background:rgba(253,224,71,0.08);border:1px solid rgba(253,224,71,0.25);padding:6px 18px;border-radius:999px;box-shadow:0 0 18px rgba(253,224,71,0.14)}
+
+/* ── FOOTER (Visually separate from body) ── */
+.footer{position:relative;margin-top:28px;background:linear-gradient(180deg,#030612 0%,#010206 100%);color:#94a3b8;border-top:2px solid rgba(253,224,71,0.35);box-shadow:0 -28px 65px rgba(0,0,0,0.9),inset 0 1px 0 rgba(255,255,255,0.08);padding:0 0 32px}
+.footer-top-glow{position:absolute;top:-2px;left:50%;transform:translateX(-50%);width:min(540px,85%);height:3px;background:linear-gradient(90deg,transparent,rgba(253,224,71,0.4) 20%,#fde047 50%,rgba(253,224,71,0.4) 80%,transparent);box-shadow:0 0 20px #fde047,0 0 36px rgba(253,224,71,0.35);pointer-events:none}
+
+/* Pre-footer Callout Strip */
+.footer-callout-strip{background:rgba(255,255,255,0.02);border-bottom:1px solid rgba(255,255,255,0.07);padding:32px 0}
+.footer-callout-card{display:flex;align-items:center;justify-content:space-between;gap:28px;flex-wrap:wrap}
+.footer-callout-info{max-width:480px}
+.footer-callout-badge{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#fde047;background:rgba(253,224,71,0.1);border:1px solid rgba(253,224,71,0.22);padding:3px 10px;border-radius:999px;margin-bottom:8px}
+.footer-callout-info h3{font-family:'Fraunces',serif;font-size:1.35rem;color:#ffffff;margin-bottom:6px}
+.footer-callout-info p{font-size:.86rem;color:#94a3b8;line-height:1.5;margin:0}
+
+.footer-callout-numbers{display:flex;gap:14px;flex-wrap:wrap}
+.footer-num-badge{display:flex;align-items:center;gap:12px;background:#080d1a;border:1.5px solid rgba(253,224,71,0.22);padding:10px 16px;border-radius:14px;color:#ffffff;text-decoration:none;transition:all .2s ease;box-shadow:0 4px 16px rgba(0,0,0,0.4)}
+.footer-num-badge:hover{border-color:#fde047;transform:translateY(-2px);box-shadow:0 8px 24px rgba(253,224,71,0.25)}
+.footer-num-badge .fnb-icon{font-size:1.4rem;background:rgba(31,170,89,0.18);color:#22c55e;width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center}
+.footer-num-badge .fnb-text{display:flex;flex-direction:column}
+.footer-num-badge .fnb-text small{font-size:.7rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.04em}
+.footer-num-badge .fnb-text strong{font-size:.92rem;color:#f8fafc}
+.footer-num-badge .fnb-arrow{font-size:.95rem;color:#fde047;margin-left:4px}
+
+/* Main Footer Grid */
+.footer-main-wrap{padding-top:48px}
+.footer-grid{display:grid;grid-template-columns:2fr 1.1fr 1.1fr 1.6fr;gap:36px;margin-bottom:44px}
 .footer-brand .logo-word{color:#fff}
 .footer-brand .logo-sub{color:#94a3b8}
-.footer-tag{font-style:italic;margin-top:10px;color:#fde047;font-size:.9rem}
-.footer-about{font-size:.85rem;margin-top:8px;color:#94a3b8;max-width:28ch}
-.footer-col h3{color:#fde047;font-size:.88rem;margin-bottom:14px;font-weight:600}
-.footer-col a{display:block;font-size:.86rem;margin-bottom:8px;color:#94a3b8;transition:color .15s}
-.footer-col a:hover{color:#fde047}
-.footer-col address{font-style:normal;font-size:.84rem;line-height:1.7}
-.footer-bottom{border-top:1px solid rgba(255,255,255,.08);padding-top:22px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;font-size:.8rem;color:#64748b}
-.footer-bottom a{color:#94a3b8}
+.footer-tag{font-style:italic;margin-top:12px;color:#fde047;font-size:.92rem}
+.footer-about{font-size:.85rem;margin-top:10px;color:#94a3b8;max-width:32ch;line-height:1.6}
+.footer-loc-badge{display:inline-flex;align-items:center;gap:6px;font-size:.76rem;color:#e2e8f0;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);padding:4px 10px;border-radius:999px;margin-top:14px}
 
-/* ── STICKY MOBILE ── */
+.footer-col h3{color:#fde047;font-size:.92rem;margin-bottom:16px;font-weight:700;letter-spacing:.03em;position:relative;display:inline-block}
+.footer-col h3::after{content:"";display:block;width:24px;height:2px;background:#fde047;margin-top:6px;border-radius:2px}
+.footer-col a{display:block;font-size:.86rem;margin-bottom:10px;color:#94a3b8;transition:all .15s ease}
+.footer-col a:hover{color:#fde047;transform:translateX(2px)}
+.footer-col address{font-style:normal;font-size:.84rem;line-height:1.65;color:#94a3b8;margin-top:12px}
+
+.footer-contact-block{display:flex;flex-direction:column;gap:12px;margin-bottom:14px}
+.footer-contact-item{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:10px 12px;transition:border-color .18s}
+.footer-contact-item:hover{border-color:rgba(253,224,71,0.35)}
+.footer-ci-head{display:flex;align-items:center;justify-content:space-between;font-size:.72rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+.footer-ci-num{color:#ffffff!important;font-weight:700!important;font-size:.9rem!important;margin-bottom:2px!important}
+.footer-ci-wa{color:#22c55e!important;font-size:.78rem!important;font-weight:600;display:inline-flex!important;align-items:center;gap:4px;margin-bottom:0!important}
+.footer-ci-wa:hover{color:#4ade80!important}
+
+/* Footer Bottom */
+.footer-bottom{border-top:1px solid rgba(255,255,255,.08);background:#000205;padding:22px 0 10px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;font-size:.8rem;color:#64748b}
+.footer-bottom-links{display:flex;align-items:center;gap:16px}
+.footer-bottom a{color:#94a3b8;transition:color .15s}
+.footer-bottom a:hover{color:#fde047}
+.back-to-top-btn{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:#cbd5e1;padding:5px 12px;border-radius:999px;font-size:.76rem;cursor:pointer;display:inline-flex;align-items:center;gap:4px;transition:all .15s}
+.back-to-top-btn:hover{background:rgba(253,224,71,0.15);border-color:#fde047;color:#fde047}
+
+/* Contact List dual numbers styles */
+.contact-line-box{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-top:2px}
+.contact-num-link{color:#ffffff;font-size:1rem;font-weight:700}
+.contact-btns-group{display:flex;align-items:center;gap:6px}
+.wa-chip-btn{background:rgba(31,170,89,0.18);border:1px solid rgba(31,170,89,0.35);color:#4ade80;font-size:.75rem;font-weight:600;padding:3px 9px;border-radius:6px;display:inline-flex;align-items:center;gap:4px;text-decoration:none;transition:all .15s}
+.wa-chip-btn:hover{background:rgba(31,170,89,0.3);color:#ffffff;border-color:#22c55e}
+
+/* Form WhatsApp destination selector */
+.wa-dest-wrap{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:12px 14px;margin-bottom:18px}
+.wa-dest-title{display:block;font-size:.8rem;font-weight:600;color:#cbd5e1;margin-bottom:8px}
+.wa-dest-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.wa-dest-btn{background:#060810;border:1.5px solid rgba(255,255,255,0.1);border-radius:8px;padding:9px 10px;text-align:left;color:#ffffff;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:8px;transition:all .15s}
+.wa-dest-btn.active{border-color:#fde047;background:rgba(253,224,71,0.08);box-shadow:0 0 12px rgba(253,224,71,0.12)}
+.wa-dest-btn:hover{border-color:#fde047}
+.wa-dest-radio{width:14px;height:14px;border-radius:50%;border:2px solid #94a3b8;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.wa-dest-btn.active .wa-dest-radio{border-color:#fde047}
+.wa-dest-btn.active .wa-dest-radio::after{content:"";width:6px;height:6px;background:#fde047;border-radius:50%}
+.wa-dest-text{display:flex;flex-direction:column}
+.wa-dest-text strong{font-size:.78rem;color:#f8fafc;line-height:1.2}
+.wa-dest-text span{font-size:.7rem;color:#94a3b8}
+
+.form-dual-send{display:flex;flex-direction:column;gap:8px;margin-top:4px}
+.wa-quick-row{display:flex;gap:8px;margin-top:4px}
+.wa-quick-send-btn{flex:1;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);color:#e2e8f0;font-size:.75rem;padding:7px 10px;border-radius:8px;cursor:pointer;font-family:inherit;transition:all .15s;text-align:center}
+.wa-quick-send-btn:hover{background:rgba(31,170,89,0.16);border-color:#22c55e;color:#ffffff}
+
+/* ── STICKY MOBILE ACTION BAR ── */
 .actionbar{position:fixed;left:0;right:0;bottom:0;display:none;gap:0;background:rgba(8,12,20,0.96);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:1px solid rgba(253,224,71,0.2);z-index:900;box-shadow:0 -4px 18px rgba(0,0,0,0.6);padding-bottom:env(safe-area-inset-bottom,0px)}
-.actionbar-call,.actionbar-wa{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:14px 12px;font-weight:700;font-size:.9rem;text-decoration:none;transition:all .15s ease}
-.actionbar-call{color:#fde047;background:#090d18;border-right:1px solid rgba(255,255,255,0.08)}
-.actionbar-call:active{background:rgba(253,224,71,0.12)}
-.actionbar-wa{background:var(--wa);color:#fff}
-.actionbar-wa:active{filter:brightness(0.92)}
+.actionbar-call-box{flex:1.2;display:flex}
+.actionbar-call-box a{flex:1;display:flex;align-items:center;justify-content:center;gap:4px;padding:13px 4px;font-weight:700;font-size:.78rem;text-decoration:none;color:#fde047;background:#090d18;border-right:1px solid rgba(255,255,255,0.08);transition:all .15s ease}
+.actionbar-call-box a:active{background:rgba(253,224,71,0.12)}
+.actionbar-wa-1,.actionbar-wa-2{flex:1;display:flex;align-items:center;justify-content:center;gap:4px;padding:13px 4px;font-weight:700;font-size:.78rem;text-decoration:none;color:#fff;transition:all .15s ease}
+.actionbar-wa-1{background:var(--wa);border-right:1px solid rgba(255,255,255,0.12)}
+.actionbar-wa-1:active{filter:brightness(0.92)}
+.actionbar-wa-2{background:#0f766e}
+.actionbar-wa-2:active{filter:brightness(0.92)}
 
-/* ── WA FLOAT ── */
-.wa-float{position:fixed;right:20px;bottom:92px;z-index:850;display:flex;flex-direction:column;align-items:flex-end;gap:6px;transition:all .2s ease}
-.wa-float-label{background:#090d18;color:#fde047;border:1px solid rgba(253,224,71,0.25);font-size:.76rem;padding:5px 12px;border-radius:999px;white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,0.4)}
-.wa-float-btn{width:52px;height:52px;background:var(--wa);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.45rem;box-shadow:0 6px 20px rgba(31,170,89,0.38);transition:transform .15s}
-.wa-float-btn:hover{transform:scale(1.06)}
+/* ── FLOATING WA WIDGET ── */
+.wa-float-container{position:fixed;right:22px;bottom:92px;z-index:950;display:flex;flex-direction:column;align-items:flex-end}
+.wa-popup-card{position:absolute;bottom:calc(100% + 14px);right:0;width:320px;max-width:calc(100vw - 32px);background:#090d18;border:1.5px solid rgba(253,224,71,0.3);border-radius:18px;box-shadow:0 20px 45px rgba(0,0,0,0.85);overflow:hidden;animation:waPop .2s cubic-bezier(0.16,1,0.3,1);z-index:960}
+@keyframes waPop{from{opacity:0;transform:scale(0.92) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.wa-popup-header{background:linear-gradient(135deg,#064e3b 0%,#047857 100%);padding:14px 16px;color:#ffffff;display:flex;align-items:center;justify-content:space-between}
+.wa-popup-header-title{display:flex;align-items:center;gap:10px}
+.wa-popup-header-title .wa-pop-ico{font-size:1.4rem}
+.wa-popup-header-title strong{display:block;font-size:.92rem;line-height:1.2}
+.wa-popup-header-title span{font-size:.72rem;opacity:.9}
+.wa-popup-close{background:none;border:0;color:#ffffff;font-size:1.3rem;cursor:pointer;padding:0 4px;opacity:.8;line-height:1}
+.wa-popup-close:hover{opacity:1}
+.wa-popup-body{padding:14px 14px 10px;display:flex;flex-direction:column;gap:10px;background:#090d18}
+.wa-popup-option{display:flex;align-items:center;gap:12px;padding:11px 12px;background:#0e1424;border:1px solid rgba(255,255,255,0.08);border-radius:12px;text-decoration:none;transition:all .18s ease}
+.wa-popup-option:hover{border-color:#fde047;background:rgba(253,224,71,0.06);transform:translateX(2px)}
+.wa-pop-opt-avatar{position:relative;width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#1faa59 0%,#0f766e 100%);color:#ffffff;font-weight:700;font-size:.82rem;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.wa-pop-dot{position:absolute;bottom:0;right:0;width:10px;height:10px;border-radius:50%;background:#22c55e;border:2px solid #090d18}
+.wa-pop-opt-text{flex:1;min-width:0}
+.wa-pop-opt-text small{display:block;font-size:.7rem;color:#94a3b8;margin-bottom:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wa-pop-opt-text strong{display:block;font-size:.88rem;color:#ffffff;font-weight:700}
+.wa-pop-opt-btn{font-size:.75rem;font-weight:700;color:#fde047;background:rgba(253,224,71,0.12);padding:4px 9px;border-radius:6px;flex-shrink:0}
+.wa-popup-footer{background:#060810;border-top:1px solid rgba(255,255,255,0.05);padding:8px 14px;font-size:.72rem;color:#64748b;text-align:center}
+
+.wa-float{background:var(--wa);color:#fff;border:0;cursor:pointer;border-radius:50%;width:54px;height:54px;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(31,170,89,0.45);position:relative;transition:transform .18s,box-shadow .18s}
+.wa-float:hover{transform:scale(1.08);box-shadow:0 10px 28px rgba(31,170,89,0.6)}
+.wa-float.open{background:#0e1424;border:1.5px solid #fde047}
+.wa-float-badge{position:absolute;top:-6px;right:-4px;background:#fde047;color:#080c14;font-size:.65rem;font-weight:800;padding:2px 6px;border-radius:999px;box-shadow:0 2px 6px rgba(0,0,0,0.5);letter-spacing:.02em;white-space:nowrap}
+.wa-float-label{position:absolute;right:64px;background:#090d18;color:#fde047;border:1px solid rgba(253,224,71,0.3);font-size:.76rem;font-weight:600;padding:5px 12px;border-radius:999px;white-space:nowrap;box-shadow:0 4px 14px rgba(0,0,0,0.5);pointer-events:none;transition:opacity .15s}
 
 /* ── MOBILE NAV DROPDOWN ── */
 .nav-mobile-dropdown{background:#090d18;border-top:1px solid rgba(253,224,71,0.2);box-shadow:0 16px 36px rgba(0,0,0,0.7);padding:14px 20px 20px;display:flex;flex-direction:column;gap:6px;animation:slideDown .22s cubic-bezier(0.16,1,0.3,1)}
@@ -1221,13 +1387,16 @@ p{margin:0 0 .5rem}
   .contact-panel{grid-template-columns:1fr}
   .contact-info{padding:36px 28px;gap:20px}
   .contact-form{padding:36px 28px}
-  .footer{padding:48px 0 calc(84px + env(safe-area-inset-bottom, 0px))}
+  .footer{padding:0 0 calc(84px + env(safe-area-inset-bottom, 0px))}
+  .footer-callout-card{flex-direction:column;align-items:flex-start;gap:20px}
+  .footer-callout-numbers{width:100%;flex-direction:column}
+  .footer-num-badge{width:100%;justify-content:space-between}
   .footer-grid{grid-template-columns:1fr 1fr;gap:32px 24px;margin-bottom:32px}
   .steps{grid-template-columns:repeat(2,1fr);row-gap:28px}
   .steps::before{display:none}
   .guides-grid{grid-template-columns:1fr;gap:16px}
   .actionbar{display:flex}
-  .wa-float{bottom:calc(66px + env(safe-area-inset-bottom, 0px));right:16px}
+  .wa-float-container{bottom:calc(66px + env(safe-area-inset-bottom, 0px));right:16px}
 }
 
 /* ── MOBILE SCREENS (<= 640px) ── */
@@ -1266,7 +1435,9 @@ p{margin:0 0 .5rem}
   .country-card-content{padding:18px 18px 20px}
   .country-landmark-tag{font-size:.72rem;padding:3px 9px}
   .footer-grid{grid-template-columns:1fr;gap:26px}
-  .footer-bottom{flex-direction:column;text-align:center;gap:10px;padding-top:18px}
+  .footer-bottom{flex-direction:column;text-align:center;gap:12px;padding-top:18px}
+  .footer-bottom-links{flex-direction:column;gap:8px}
+  .wa-dest-grid{grid-template-columns:1fr}
   .steps{grid-template-columns:1fr;row-gap:20px;margin-top:28px}
   .step{display:flex;align-items:flex-start;text-align:left;gap:16px;padding:0}
   .step-dot{width:40px;height:40px;font-size:.95rem;flex-shrink:0;margin-bottom:0}
@@ -1310,22 +1481,28 @@ export default function YasviConsultancy() {
   const [menu, setMenu] = useState(false);
   const [tab, setTab]   = useState("uk");
   const [faqOpen, setFaqOpen] = useState(null);
-  const [copied, setCopied] = useState(false);
+  const [copied, setCopied] = useState(null);
+  const [waPopupOpen, setWaPopupOpen] = useState(false);
+  const [targetWa, setTargetWa] = useState(WA_NUM_1);
   const [form, setForm] = useState({
     name: "", phone: "", country: "United Kingdom", intake: "September 2027", course: "",
   });
 
   const set = k => e => setForm({ ...form, [k]: e.target.value });
 
-  const send = e => {
-    e.preventDefault();
-    const text = `Hi, I'm ${form.name} (${form.phone}). Country: ${form.country}. Intake: ${form.intake}.${form.course ? ` Course: ${form.course}.` : ""} I'd like a counselling session.`;
-    window.open(wa(text), "_blank");
+  const sendTo = (targetNum) => {
+    const text = `Hi Yasvi Overseas, I'm ${form.name || "a student"} (${form.phone || "No phone provided"}). Country: ${form.country}. Intake: ${form.intake}.${form.course ? ` Course: ${form.course}.` : ""} I'd like to book a counselling session.`;
+    window.open(wa(text, targetNum), "_blank");
   };
 
-  const copyPhone = () => {
-    navigator.clipboard?.writeText("+91 99898 84094").then(() => {
-      setCopied(true); setTimeout(() => setCopied(false), 1800);
+  const send = e => {
+    e.preventDefault();
+    sendTo(targetWa);
+  };
+
+  const copyPhone = (numStr = WA_DISPLAY_1, key = "num1") => {
+    navigator.clipboard?.writeText(numStr).then(() => {
+      setCopied(key); setTimeout(() => setCopied(null), 1800);
     });
   };
 
@@ -1377,6 +1554,12 @@ export default function YasviConsultancy() {
             <a className="btn btn-wa btn-block" href="#contact" onClick={() => setMenu(false)} style={{ marginTop: "6px" }}>Book Counselling on WhatsApp</a>
           </div>
         )}
+
+        {/* FLASHLIGHT SEPARATION LINE & GLOW */}
+        <div className="nav-flashlight-line" aria-hidden="true">
+          <div className="nav-flashlight-beam" />
+        </div>
+        <div className="nav-flashlight-glow" aria-hidden="true" />
       </header>
 
       <main id="main">
@@ -1640,7 +1823,8 @@ export default function YasviConsultancy() {
                   <p className="office-hours">📍 Mon – Sat · 10:00 am – 7:00 pm <span className="sample-tag">Sample</span></p>
                   <div className="office-links">
                     <a className="btn btn-ghost btn-sm" href="https://www.google.com/maps/search/?api=1&query=Yasvi+Overseas+Consultancy+MS+Complex+Kamala+Nagar+Vanasthalipuram+Hyderabad" target="_blank" rel="noopener noreferrer">Get directions</a>
-                    <a className="btn btn-ghost btn-sm" href="tel:+919989884094">Call before you come</a>
+                    <a className="btn btn-ghost btn-sm" href="tel:+919989884094">Call: 99898 84094</a>
+                    <a className="btn btn-ghost btn-sm" href="tel:+919390677123">Call: 93906 77123</a>
                   </div>
                 </div>
               </div>
@@ -1749,11 +1933,37 @@ export default function YasviConsultancy() {
               <ul className="contact-list">
                 <li>
                   <span className="contact-list-icon">📞</span>
-                  <div>
-                    <span>Call / WhatsApp</span>
-                    <a href="tel:+919989884094">+91 99898 84094</a>
+                  <div style={{ flex: 1 }}>
+                    <span>Helpline 1 · Call / WhatsApp</span>
+                    <div className="contact-line-box">
+                      <a href="tel:+919989884094" className="contact-num-link">+91 99898 84094</a>
+                      <div className="contact-btns-group">
+                        <a href={wa("Hi Yasvi Overseas, I would like to enquire about counselling.", WA_NUM_1)} target="_blank" rel="noopener noreferrer" className="wa-chip-btn">
+                          💬 WhatsApp
+                        </a>
+                        <button className="copy-btn" onClick={() => copyPhone("+91 99898 84094", "num1")}>
+                          {copied === "num1" ? "Copied!" : "Copy"}
+                        </button>
+                      </div>
+                    </div>
                   </div>
-                  <button className="copy-btn" onClick={copyPhone}>{copied ? "Copied!" : "Copy"}</button>
+                </li>
+                <li>
+                  <span className="contact-list-icon">💬</span>
+                  <div style={{ flex: 1 }}>
+                    <span>Helpline 2 · Call / WhatsApp</span>
+                    <div className="contact-line-box">
+                      <a href="tel:+919390677123" className="contact-num-link">+91 93906 77123</a>
+                      <div className="contact-btns-group">
+                        <a href={wa("Hi Yasvi Overseas, I would like to enquire about counselling.", WA_NUM_2)} target="_blank" rel="noopener noreferrer" className="wa-chip-btn">
+                          💬 WhatsApp
+                        </a>
+                        <button className="copy-btn" onClick={() => copyPhone("+91 93906 77123", "num2")}>
+                          {copied === "num2" ? "Copied!" : "Copy"}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 </li>
                 <li>
                   <span className="contact-list-icon">📍</span>
@@ -1798,17 +2008,100 @@ export default function YasviConsultancy() {
                 <label htmlFor="f-course">Course of interest <span className="opt">(optional)</span></label>
                 <input id="f-course" name="course" type="text" placeholder="e.g. MS Computer Science" value={form.course} onChange={set("course")} />
               </div>
-              <button className="btn btn-wa btn-lg btn-block" type="submit">Send on WhatsApp</button>
-              <p className="form-note">Opens WhatsApp with your details filled in. Details you share are used only to reply to you.</p>
+
+              {/* WhatsApp Destination Selector */}
+              <div className="wa-dest-wrap">
+                <span className="wa-dest-title">Send Inquiry via WhatsApp Helpline:</span>
+                <div className="wa-dest-grid">
+                  <button
+                    type="button"
+                    className={`wa-dest-btn ${targetWa === WA_NUM_1 ? "active" : ""}`}
+                    onClick={() => setTargetWa(WA_NUM_1)}
+                  >
+                    <span className="wa-dest-radio" />
+                    <div className="wa-dest-text">
+                      <strong>Helpline 1</strong>
+                      <span>+91 99898 84094</span>
+                    </div>
+                  </button>
+                  <button
+                    type="button"
+                    className={`wa-dest-btn ${targetWa === WA_NUM_2 ? "active" : ""}`}
+                    onClick={() => setTargetWa(WA_NUM_2)}
+                  >
+                    <span className="wa-dest-radio" />
+                    <div className="wa-dest-text">
+                      <strong>Helpline 2</strong>
+                      <span>+91 93906 77123</span>
+                    </div>
+                  </button>
+                </div>
+              </div>
+
+              <div className="form-dual-send">
+                <button className="btn btn-wa btn-lg btn-block" type="submit">
+                  💬 Send on WhatsApp ({targetWa === WA_NUM_1 ? "+91 99898 84094" : "+91 93906 77123"})
+                </button>
+                <div className="wa-quick-row">
+                  <button type="button" className="wa-quick-send-btn" onClick={() => sendTo(WA_NUM_1)}>
+                    Send to Line 1 (+91 99898 84094)
+                  </button>
+                  <button type="button" className="wa-quick-send-btn" onClick={() => sendTo(WA_NUM_2)}>
+                    Send to Line 2 (+91 93906 77123)
+                  </button>
+                </div>
+              </div>
+              <p className="form-note">Opens WhatsApp with your details filled in. Connect with either counsellor directly.</p>
             </form>
           </div>
         </section>
 
       </main>
 
-      {/* FOOTER */}
+      {/* SEPARATION DIVIDER ABOVE FOOTER */}
+      <div className="footer-divider-ornament">
+        <div className="footer-divider-line" />
+        <div className="footer-divider-emblem">✦ YASVI OVERSEAS CONSULTANCY ✦</div>
+        <div className="footer-divider-line" />
+      </div>
+
+      {/* FOOTER (Visually separate from body) */}
       <footer className="footer">
-        <div className="wrap">
+        <div className="footer-top-glow" />
+
+        {/* Pre-footer Callout Band */}
+        <div className="footer-callout-strip">
+          <div className="wrap">
+            <div className="footer-callout-card">
+              <div className="footer-callout-info">
+                <span className="footer-callout-badge">📍 Hyderabad Head Office</span>
+                <h3>Start your study abroad journey today</h3>
+                <p>Walk in for personalized counselling or connect instantly via WhatsApp with our senior consultants.</p>
+              </div>
+              <div className="footer-callout-numbers">
+                <a href={wa("Hi Yasvi Overseas, I would like to enquire about counselling.", WA_NUM_1)} target="_blank" rel="noopener noreferrer" className="footer-num-badge">
+                  <span className="fnb-icon">💬</span>
+                  <div className="fnb-text">
+                    <small>Helpline 1 · WhatsApp</small>
+                    <strong>+91 99898 84094</strong>
+                  </div>
+                  <span className="fnb-arrow">→</span>
+                </a>
+                <a href={wa("Hi Yasvi Overseas, I would like to enquire about counselling.", WA_NUM_2)} target="_blank" rel="noopener noreferrer" className="footer-num-badge">
+                  <span className="fnb-icon">💬</span>
+                  <div className="fnb-text">
+                    <small>Helpline 2 · WhatsApp</small>
+                    <strong>+91 93906 77123</strong>
+                  </div>
+                  <span className="fnb-arrow">→</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Main Footer Grid */}
+        <div className="wrap footer-main-wrap">
           <div className="footer-grid">
             <div className="footer-brand">
               <a href="#top" className="logo">
@@ -1817,6 +2110,7 @@ export default function YasviConsultancy() {
               </a>
               <p className="footer-tag">Your Dreams · Our Guidance</p>
               <p className="footer-about">Personal, honest guidance for students in Hyderabad, from the first counselling session to your first week abroad.</p>
+              <span className="footer-loc-badge">📍 Vanasthalipuram, Hyderabad</span>
             </div>
             <nav className="footer-col" aria-label="Destinations">
               <h3>Country guides</h3>
@@ -1832,30 +2126,121 @@ export default function YasviConsultancy() {
             </nav>
             <div className="footer-col">
               <h3>Visit or call</h3>
-              <a href="tel:+919989884094">+91 99898 84094</a>
-              <a href={wa()} target="_blank" rel="noopener noreferrer">WhatsApp us</a>
+              <div className="footer-contact-block">
+                <div className="footer-contact-item">
+                  <div className="footer-ci-head">
+                    <span>Helpline 1</span>
+                    <span>Counselling</span>
+                  </div>
+                  <a href="tel:+919989884094" className="footer-ci-num">📞 +91 99898 84094</a>
+                  <a href={wa("", WA_NUM_1)} target="_blank" rel="noopener noreferrer" className="footer-ci-wa">💬 Chat on WhatsApp →</a>
+                </div>
+                <div className="footer-contact-item">
+                  <div className="footer-ci-head">
+                    <span>Helpline 2</span>
+                    <span>Admissions</span>
+                  </div>
+                  <a href="tel:+919390677123" className="footer-ci-num">📞 +91 93906 77123</a>
+                  <a href={wa("", WA_NUM_2)} target="_blank" rel="noopener noreferrer" className="footer-ci-wa">💬 Chat on WhatsApp →</a>
+                </div>
+              </div>
               <address>402, 4th Floor, MS Complex,<br />Kamala Nagar Road No. 12,<br />Vanasthalipuram, Hyderabad</address>
-              <a href="https://www.google.com/maps/search/?api=1&query=Yasvi+Overseas+Consultancy+MS+Complex+Kamala+Nagar+Vanasthalipuram+Hyderabad" target="_blank" rel="noopener noreferrer" style={{ marginTop: 8, display: "block" }}>Open in Google Maps</a>
+              <a href="https://www.google.com/maps/search/?api=1&query=Yasvi+Overseas+Consultancy+MS+Complex+Kamala+Nagar+Vanasthalipuram+Hyderabad" target="_blank" rel="noopener noreferrer" style={{ marginTop: 8, display: "inline-block", color: "#fde047" }}>📍 Open in Google Maps</a>
             </div>
           </div>
           <div className="footer-bottom">
             <p>© 2026 Yasvi Overseas Consultancy. All rights reserved.</p>
-            <p>Details you share are used only to reply to you</p>
+            <div className="footer-bottom-links">
+              <span>Details you share are used only to reply to you</span>
+              <a href="#top" className="back-to-top-btn">▲ Back to top</a>
+            </div>
           </div>
         </div>
       </footer>
 
-      {/* MOBILE ACTION BAR */}
+      {/* MOBILE ACTION BAR (Both WhatsApp numbers) */}
       <nav className="actionbar" aria-label="Quick contact">
-        <a className="actionbar-call" href="tel:+919989884094">📞 Call</a>
-        <a className="actionbar-wa" href={wa()} target="_blank" rel="noopener noreferrer">WhatsApp</a>
+        <div className="actionbar-call-box">
+          <a href="tel:+919989884094" title="Call Line 1">📞 Call 1</a>
+          <a href="tel:+919390677123" title="Call Line 2">📞 Call 2</a>
+        </div>
+        <a className="actionbar-wa-1" href={wa("", WA_NUM_1)} target="_blank" rel="noopener noreferrer">💬 WA 1</a>
+        <a className="actionbar-wa-2" href={wa("", WA_NUM_2)} target="_blank" rel="noopener noreferrer">💬 WA 2</a>
       </nav>
 
-      {/* FLOATING WA */}
-      <a className="wa-float" href={wa()} target="_blank" rel="noopener noreferrer" aria-label="Chat with Yasvi on WhatsApp">
-        <span className="wa-float-label">Chat with us</span>
-        <span className="wa-float-btn">💬</span>
-      </a>
+      {/* FLOATING WA WIDGET (Both numbers selector) */}
+      <div className="wa-float-container">
+        {waPopupOpen && (
+          <div className="wa-popup-card">
+            <div className="wa-popup-header">
+              <div className="wa-popup-header-title">
+                <span className="wa-pop-ico">💬</span>
+                <div>
+                  <strong>Chat on WhatsApp</strong>
+                  <span>Choose a helpline to connect</span>
+                </div>
+              </div>
+              <button 
+                type="button" 
+                className="wa-popup-close" 
+                onClick={() => setWaPopupOpen(false)}
+                aria-label="Close"
+              >×</button>
+            </div>
+            <div className="wa-popup-body">
+              <a 
+                href={wa("Hi Yasvi Overseas, I'd like to enquire about studying abroad.", WA_NUM_1)} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="wa-popup-option"
+                onClick={() => setWaPopupOpen(false)}
+              >
+                <div className="wa-pop-opt-avatar">
+                  <span>Y1</span>
+                  <span className="wa-pop-dot" />
+                </div>
+                <div className="wa-pop-opt-text">
+                  <small>Helpline 1 · Counselling & Spot Admissions</small>
+                  <strong>+91 99898 84094</strong>
+                </div>
+                <span className="wa-pop-opt-btn">Chat →</span>
+              </a>
+
+              <a 
+                href={wa("Hi Yasvi Overseas, I'd like to enquire about studying abroad.", WA_NUM_2)} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="wa-popup-option"
+                onClick={() => setWaPopupOpen(false)}
+              >
+                <div className="wa-pop-opt-avatar" style={{ background: "linear-gradient(135deg, #0284c7 0%, #0369a1 100%)" }}>
+                  <span>Y2</span>
+                  <span className="wa-pop-dot" />
+                </div>
+                <div className="wa-pop-opt-text">
+                  <small>Helpline 2 · Admissions & Visa Enquiries</small>
+                  <strong>+91 93906 77123</strong>
+                </div>
+                <span className="wa-pop-opt-btn">Chat →</span>
+              </a>
+            </div>
+            <div className="wa-popup-footer">
+              <span>⚡ Usually replies within 15 minutes</span>
+            </div>
+          </div>
+        )}
+
+        <button 
+          type="button" 
+          className={`wa-float ${waPopupOpen ? "open" : ""}`} 
+          onClick={() => setWaPopupOpen(!waPopupOpen)} 
+          aria-label="Chat with Yasvi on WhatsApp - 2 numbers available"
+        >
+          <span className="wa-float-badge">2 Lines</span>
+          <span className="wa-float-label">WhatsApp Us</span>
+          <span className="wa-float-btn">{waPopupOpen ? "✕" : "💬"}</span>
+        </button>
+      </div>
     </div>
   );
 }
